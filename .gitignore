@@ -1,0 +1,60 @@
+# ========== Logs ==========
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ========== Dependencies / Build ==========
+node_modules
+dist
+dist-ssr
+coverage
+
+# ========== Local-only files ==========
+*.local
+.DS_Store
+
+# （建議新增）環境變數：Vite 會讀取 .env / .env.[mode] / .env.local
+# 務必忽略，僅保留 .env.example 作為範例
+.env
+.env.*
+!.env.example
+
+# （建議新增）工具快取檔：避免把 Lint/Style 的快取推上去
+.eslintcache
+.stylelintcache
+
+# （建議新增）打包出的壓縮檔（偶爾 npm pack 會產生）
+*.tgz
+
+# （建議新增）可能的私鑰/憑證（避免外流）
+*.pem
+*.p12
+*.key
+*.crt
+
+# ========== E2E 測試輸出 ==========
+/cypress/videos/
+/cypress/screenshots/
+
+# （選用，若你改用 Playwright 再保留）
+# playwright-report/
+# test-results/
+
+# ========== Editor directories and files ==========
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+*.tsbuildinfo
+
+# （選用）VS Code Local History 外掛
+# .history/
