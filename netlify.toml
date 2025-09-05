@@ -1,0 +1,23 @@
+# netlify.toml（放在專案根目錄）
+
+[build]
+  # 用 lock 檔安裝，接著打包
+  command = "npm ci && npm run build"
+  # Vite 的輸出資料夾
+  publish = "dist"
+
+# 指定 Node 版本，避免 Netlify 預設版本不相容
+[build.environment]
+  NODE_VERSION = "20.19.0"
+
+# SPA 路由：把所有前端路由交給 index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# （可選）靜態資源快取，讓 assets 更快
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
