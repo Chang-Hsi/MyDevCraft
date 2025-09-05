@@ -4,7 +4,7 @@
       <div class="logo-icon">
         <el-icon size="20"><Menu /></el-icon>
       </div>
-      <div class="logo-text" v-show="!collapsed">ElementAdmin</div>
+      <div class="logo-text" v-show="!collapsed">MyDevCraft</div>
     </div>
 
     <!-- 可滾動選單 -->
