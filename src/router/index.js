@@ -111,12 +111,12 @@ const routes = [
         },
       },
       {
-        path: '/features/clipboard',
-        name: 'FeaturesClipboard',
-        component: () => import('@/views/features/Clipboard.vue'),
+        path: '/features/push',
+        name: 'FeaturesPush',
+        component: () => import('@/views/features/Push.vue'),
         meta: {
-          titleKey: 'menu.clipboard',
-          breadcrumb: ['menu.features', 'menu.clipboard'],
+          titleKey: 'menu.push',
+          breadcrumb: ['menu.features', 'menu.push'],
         },
       },
       {

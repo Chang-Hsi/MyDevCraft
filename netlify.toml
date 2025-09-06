@@ -21,3 +21,11 @@
   for = "/assets/*"
   [headers.values]
     cache-control = "public, max-age=31536000, immutable"
+
+[functions]
+  node_bundler = "esbuild"
+
+# 每 1 分鐘執行 cron-dispatch（掃描 Firestore 需要發送的排程）
+[[scheduled.functions]]
+  name = "cron-dispatch"
+  cron = "*/1 * * * *"

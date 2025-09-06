@@ -66,9 +66,7 @@
             <span>{{ t("menu.features") }}</span>
           </template>
           <el-menu-item index="/features/editor">{{ t("menu.editor") }}</el-menu-item>
-          <el-menu-item index="/features/clipboard">{{
-            t("menu.clipboard")
-          }}</el-menu-item>
+          <el-menu-item index="/features/push">{{ t("menu.push") }}</el-menu-item>
           <el-menu-item index="/features/print">{{ t("menu.print") }}</el-menu-item>
         </el-sub-menu>
 
