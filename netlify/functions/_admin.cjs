@@ -1,5 +1,4 @@
-// netlify/functions/_admin.js
-// 共用初始化 firebase-admin（只初始化一次）
+// netlify/functions/_admin.cjs
 const admin = require('firebase-admin')
 
 function getAdmin() {

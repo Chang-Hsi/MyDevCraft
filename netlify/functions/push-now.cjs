@@ -1,5 +1,5 @@
-// netlify/functions/push-now.js
-const { getAdmin } = require('./_admin')
+// netlify/functions/push-now.cjs
+const { getAdmin } = require('./_admin.cjs')
 
 function corsHeaders() {
   return {

@@ -1,13 +1,11 @@
-// netlify/functions/cron-dispatch.js
-// 由 netlify.toml 的 [[scheduled.functions]] 觸發
-const { getAdmin } = require('./_admin')
+// netlify/functions/cron-dispatch.cjs
+const { getAdmin } = require('./_admin.cjs')
 
 exports.handler = async () => {
   const admin = getAdmin()
   const db = admin.firestore()
   const now = Date.now()
 
-  // 一次處理最多 20 筆
   const snap = await db
     .collection('pushJobs')
     .where('status', '==', 'pending')

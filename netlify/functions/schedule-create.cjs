@@ -1,5 +1,5 @@
-// netlify/functions/schedule-create.js
-const { getAdmin } = require('./_admin')
+// netlify/functions/schedule-create.cjs
+const { getAdmin } = require('./_admin.cjs')
 
 function corsHeaders() {
   return {
@@ -21,7 +21,7 @@ exports.handler = async (event) => {
     const title = body.title || ''
     const text = body.body || ''
     const link = body.link || '/'
-    const sendAt = Number(body.sendAt || 0) // 毫秒
+    const sendAt = Number(body.sendAt || 0)
 
     if (!tokens.length) return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ ok: false, error: 'tokens 不可為空' }) }
     if (!title || !text) return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ ok: false, error: '標題/內容不可為空' }) }
@@ -32,8 +32,8 @@ exports.handler = async (event) => {
       title,
       body: text,
       link,
-      sendAt,                       // 毫秒
-      status: 'pending',            // pending -> processing -> sent / error
+      sendAt,
+      status: 'pending', // pending -> processing -> sent/error
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     }
     const ref = await db.collection('pushJobs').add(doc)
