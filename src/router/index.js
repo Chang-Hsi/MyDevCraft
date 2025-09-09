@@ -120,12 +120,12 @@ const routes = [
         },
       },
       {
-        path: '/features/print',
-        name: 'FeaturesPrint',
-        component: () => import('@/views/features/Print.vue'),
+        path: '/features/seo',
+        name: 'FeaturesSEO',
+        component: () => import('@/views/features/SEO.vue'),
         meta: {
-          titleKey: 'menu.print',
-          breadcrumb: ['menu.features', 'menu.print'],
+          titleKey: 'menu.seo',
+          breadcrumb: ['menu.features', 'menu.seo'],
         },
       },
 

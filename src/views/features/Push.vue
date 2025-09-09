@@ -9,61 +9,80 @@
       </div>
     </div>
 
-    <!-- ===== 瀏覽器通知狀態 ===== -->
+    <!-- ===== 瀏覽器通知狀態（可收合） ===== -->
     <el-card shadow="never">
-      <template #header><b>瀏覽器通知狀態</b></template>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="space-y-2">
-          <div>
-            支援度：<b>{{ supportText }}</b>
-          </div>
-          <div>
-            權限：<b>{{ permission }}</b>
-          </div>
-
-          <div class="flex gap-2">
-            <el-button
-              type="primary"
-              :disabled="!supported || permission === 'granted'"
-              @click="enableNotification"
-              :loading="enabling"
-            >
-              啟用瀏覽器通知
-            </el-button>
-
-            <el-button :disabled="!supported" @click="refreshToken"
-              >重新取得 Token</el-button
-            >
-            <el-button :disabled="!token" @click="copyToken">複製 Token</el-button>
-          </div>
-
-          <el-input
-            type="textarea"
-            :rows="3"
-            placeholder="FCM Token（成功啟用後會出現，可在下方『新增推播』使用）"
-            v-model="token"
-            readonly
+      <template #header>
+        <div class="flex items-center justify-between">
+          <b class="select-none">瀏覽器通知狀態</b>
+          <!-- 右上角收合按鈕 -->
+          <el-button
+            :icon="notifOpen ? ArrowUp : ArrowDown"
+            text
+            circle
+            @click.stop="notifOpen = !notifOpen"
+            :aria-label="notifOpen ? '收合' : '展開'"
           />
         </div>
+      </template>
 
-        <div class="space-y-2">
-          <div class="text-gray-600">前景推播測試（不經 FCM，純本機測試通知外觀）：</div>
-          <div class="flex gap-2">
-            <el-button @click="showLocalNotification" :disabled="!registration">
-              顯示本機通知
-            </el-button>
-            <el-button type="success" @click="showElMessage">
-              模擬前景訊息（onMessage）
-            </el-button>
+      <!-- 使用 Element Plus 的收合轉場 -->
+      <el-collapse-transition>
+        <div v-show="notifOpen">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <div>
+                支援度：<b>{{ supportText }}</b>
+              </div>
+              <div>
+                權限：<b>{{ permission }}</b>
+              </div>
+
+              <div class="flex gap-2">
+                <el-button
+                  type="primary"
+                  :disabled="!supported || permission === 'granted'"
+                  @click="enableNotification"
+                  :loading="enabling"
+                >
+                  啟用瀏覽器通知
+                </el-button>
+
+                <el-button :disabled="!supported" @click="refreshToken">
+                  重新取得 Token
+                </el-button>
+                <el-button :disabled="!token" @click="copyToken">複製 Token</el-button>
+              </div>
+
+              <el-input
+                type="textarea"
+                :rows="3"
+                placeholder="FCM Token（成功啟用後會出現，可在下方『新增推播』使用）"
+                v-model="token"
+                readonly
+              />
+            </div>
+
+            <div class="space-y-2">
+              <div class="text-gray-600">
+                前景推播測試（不經 FCM，純本機測試通知外觀）：
+              </div>
+              <div class="flex gap-2">
+                <el-button @click="showLocalNotification" :disabled="!registration">
+                  顯示本機通知
+                </el-button>
+                <el-button type="success" @click="showElMessage">
+                  模擬前景訊息（onMessage）
+                </el-button>
+              </div>
+              <el-alert
+                title="正式推播由下方『新增推播』送到 Netlify Functions 代發；排程由 Netlify 的排程 Function 每分鐘執行。"
+                type="info"
+                show-icon
+              />
+            </div>
           </div>
-          <el-alert
-            title="正式推播由下方『新增推播』送到 Netlify Functions 代發；排程由 Netlify 的排程 Function 每分鐘執行。"
-            type="info"
-            show-icon
-          />
         </div>
-      </div>
+      </el-collapse-transition>
     </el-card>
 
     <!-- ===== 推播列表（從 Firestore 即時同步） ===== -->
@@ -75,7 +94,7 @@
       <el-table :data="pushList" stripe class="w-full">
         <el-table-column type="index" label="編號" width="70" align="center" />
 
-        <el-table-column label="推播標題 / 內容" min-width="320">
+        <el-table-column label="推播標題 / 內容" min-width="180">
           <template #default="{ row }">
             <div class="flex items-start gap-3 min-w-0">
               <div
@@ -95,7 +114,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="連結" min-width="220" show-overflow-tooltip>
+        <el-table-column label="連結" min-width="320" show-overflow-tooltip>
           <template #default="{ row }">
             <a
               v-if="row.link"
@@ -217,6 +236,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { ElMessage, ElMessageBox, ElNotification } from "element-plus";
+import { ArrowDown, ArrowUp } from "@element-plus/icons-vue";
 import { onMessage, getMessaging, isSupported } from "firebase/messaging";
 import { initWebPushAndGetToken } from "@/lib/firebase";
 import { sendNow, scheduleCreate } from "@/api/push";
@@ -234,6 +254,9 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+
+// 新增：卡片展開狀態（預設收合）
+const notifOpen = ref(false);
 
 /* ===== FCM 狀態 ===== */
 const supported = ref(false);
