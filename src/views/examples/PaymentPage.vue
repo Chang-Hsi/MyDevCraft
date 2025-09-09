@@ -553,8 +553,7 @@ const invoiceMethod = ref([
    說明頁見：開放資料 Open API + 資料集 31868
    常見參數：limit（最多 10000）
 */
-const EINVOICE_OD_API =
-  "https://www.einvoice.nat.gov.tw/portal/ods/api/v1/DonateCodeList";
+const EINVOICE_OD_API = "/.netlify/functions/donate-codes";
 
 async function loadDonateCodes() {
   try {
