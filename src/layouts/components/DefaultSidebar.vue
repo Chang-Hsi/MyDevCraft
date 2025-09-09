@@ -102,7 +102,7 @@
             <!-- 調整：t('menu.examples') -->
             <span>{{ t("menu.examples") }}</span>
           </template>
-          <el-menu-item index="/examples/list">{{ t("menu.list") }}</el-menu-item>
+          <el-menu-item index="/examples/payment">{{ t("menu.payment") }}</el-menu-item>
           <el-menu-item index="/examples/edit">{{ t("menu.edit") }}</el-menu-item>
         </el-sub-menu>
 

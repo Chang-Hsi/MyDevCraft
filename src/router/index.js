@@ -180,12 +180,12 @@ const routes = [
 
       // ===== 綜合示例（列表 / 編輯）=====
       {
-        path: '/examples/list',
+        path: '/examples/payment',
         name: 'ExamplesList',
-        component: () => import('@/views/examples/List.vue'),
+        component: () => import('@/views/examples/PaymentPage.vue'),
         meta: {
-          titleKey: 'menu.list',
-          breadcrumb: ['menu.examples', 'menu.list'],
+          titleKey: 'menu.payment',
+          breadcrumb: ['menu.examples', 'menu.payment'],
         },
       },
       {
