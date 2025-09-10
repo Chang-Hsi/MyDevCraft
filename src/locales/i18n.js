@@ -30,11 +30,16 @@ const messages = {
       multi2: '二級 - 2',
       examples: '綜合示例',
       payment: '付款',
-      edit: '編輯',
+      events: '活動',
+      eventNew: '新增活動',
+      eventEdit: '編輯活動',
       errors: '錯誤頁面',
       permission: '權限管理',
       pagePermission: '頁面權限',
       buttonPermission: '按鈕權限',
+      errors400: '400 錯誤',
+      errors403: '403 禁止訪問',
+      errors500: '500 伺服器錯誤',
     },
     header: {
       language: '語言',
@@ -129,6 +134,11 @@ const messages = {
             desc: '進入個人中心、修改密碼或安全登出。'
           }
         }
+      },
+      error: {
+        msg400: '抱歉，您訪問的頁面不存在。',
+        msg403: '抱歉，您無權訪問此頁面。',
+        msg500: '抱歉，伺服器發生錯誤。'
       }
     },
   },
@@ -156,11 +166,16 @@ const messages = {
       multi2: '二级 - 2',
       examples: '综合示例',
       payment: '付款',
-      edit: '编辑',
+      events: '活动',
+      eventNew: '新增活动',
+      eventEdit: '编辑活动',
       errors: '错误页面',
       permission: '权限管理',
       pagePermission: '页面权限',
       buttonPermission: '按钮权限',
+      errors400: '400 错误',
+      errors403: '403 禁止访问',
+      errors500: '500 服务器错误',
     },
     header: {
       language: '语言',
@@ -249,6 +264,11 @@ const messages = {
             desc: '进入个人中心、修改密码或安全登出。'
           }
         }
+      },
+      error: {
+        msg400: '抱歉，您访问的页面不存在。',
+        msg403: '抱歉，您无权访问此页面。',
+        msg500: '抱歉，服务器发生错误。'
       }
     },
   },
@@ -276,11 +296,16 @@ const messages = {
       multi2: 'Level 2',
       examples: 'Examples',
       payment: 'Payment',
-      edit: 'Edit',
+      events: 'Events',
+      eventNew: 'New Event',
+      eventEdit: 'Edit Event',
       errors: 'Error Pages',
       permission: 'Permission',
       pagePermission: 'Page Permission',
       buttonPermission: 'Button Permission',
+      errors400: '400 Error',
+      errors403: '403 Forbidden',
+      errors500: '500 Server Error',
     },
     header: {
       language: 'Language',
@@ -369,6 +394,11 @@ const messages = {
             desc: 'Open profile, change password, or sign out safely.'
           }
         }
+      },
+      error: {
+        msg400: 'Sorry, the page you requested does not exist.',
+        msg403: 'Sorry, you do not have permission to access this page.',
+        msg500: 'Sorry, the server encountered an error.'
       }
     },
   },

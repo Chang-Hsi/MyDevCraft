@@ -20,110 +20,154 @@
         @select="onSelect"
       >
         <!-- 首頁（含子頁：分析頁、工作台） -->
-        <el-sub-menu index="home">
+        <el-sub-menu
+          index="home"
+          :disabled="groupDisabled('/dashboard/analysis', '/dashboard/workbench')"
+        >
           <template #title>
             <el-icon><House /></el-icon>
-            <!-- 調整：文案改為 t('menu.home') -->
             <span>{{ t("menu.home") }}</span>
           </template>
-          <el-menu-item index="/dashboard/analysis">
-            <!-- 調整：t('menu.analysis') -->
+          <el-menu-item
+            index="/dashboard/analysis"
+            :disabled="!can('/dashboard/analysis')"
+          >
             <span>{{ t("menu.analysis") }}</span>
           </el-menu-item>
-          <el-menu-item index="/dashboard/workbench">
-            <!-- 調整：t('menu.workbench') -->
+          <el-menu-item
+            index="/dashboard/workbench"
+            :disabled="!can('/dashboard/workbench')"
+          >
             <span>{{ t("menu.workbench") }}</span>
           </el-menu-item>
         </el-sub-menu>
 
-        <el-menu-item index="/docs">
+        <el-menu-item index="/docs" :disabled="!can('/docs')">
           <el-icon><Document /></el-icon>
-          <!-- 調整：t('menu.docs') -->
           <span>{{ t("menu.docs") }}</span>
         </el-menu-item>
 
-        <el-menu-item index="/guide">
+        <el-menu-item index="/guide" :disabled="!can('/guide')">
           <el-icon><Guide /></el-icon>
-          <!-- 調整：t('menu.guide') -->
           <span>{{ t("menu.guide") }}</span>
         </el-menu-item>
 
-        <el-sub-menu index="components">
+        <el-sub-menu
+          index="components"
+          :disabled="
+            groupDisabled('/components/form', '/components/table', '/components/upload')
+          "
+        >
           <template #title>
             <el-icon><Setting /></el-icon>
-            <!-- 調整：t('menu.components') -->
             <span>{{ t("menu.components") }}</span>
           </template>
-          <el-menu-item index="/components/form">{{ t("menu.form") }}</el-menu-item>
-          <el-menu-item index="/components/table">{{ t("menu.table") }}</el-menu-item>
-          <el-menu-item index="/components/upload">{{ t("menu.upload") }}</el-menu-item>
+          <el-menu-item index="/components/form" :disabled="!can('/components/form')">
+            {{ t("menu.form") }}
+          </el-menu-item>
+          <el-menu-item index="/components/table" :disabled="!can('/components/table')">
+            {{ t("menu.table") }}
+          </el-menu-item>
+          <el-menu-item index="/components/upload" :disabled="!can('/components/upload')">
+            {{ t("menu.upload") }}
+          </el-menu-item>
         </el-sub-menu>
 
-        <el-sub-menu index="features">
+        <el-sub-menu
+          index="features"
+          :disabled="groupDisabled('/features/editor', '/features/push', '/features/seo')"
+        >
           <template #title>
             <el-icon><Tools /></el-icon>
-            <!-- 調整：t('menu.features') -->
             <span>{{ t("menu.features") }}</span>
           </template>
-          <el-menu-item index="/features/editor">{{ t("menu.editor") }}</el-menu-item>
-          <el-menu-item index="/features/push">{{ t("menu.push") }}</el-menu-item>
-          <el-menu-item index="/features/seo">{{ t("menu.seo") }}</el-menu-item>
+          <el-menu-item index="/features/editor" :disabled="!can('/features/editor')">
+            {{ t("menu.editor") }}
+          </el-menu-item>
+          <el-menu-item index="/features/push" :disabled="!can('/features/push')">
+            {{ t("menu.push") }}
+          </el-menu-item>
+          <el-menu-item index="/features/seo" :disabled="!can('/features/seo')">
+            {{ t("menu.seo") }}
+          </el-menu-item>
         </el-sub-menu>
 
-        <el-sub-menu index="hooks">
+        <el-sub-menu
+          index="hooks"
+          :disabled="groupDisabled('/hooks/useRequest', '/hooks/useForm')"
+        >
           <template #title>
             <el-icon><Tools /></el-icon>
-            <!-- 調整：t('menu.hooks') -->
             <span>{{ t("menu.hooks") }}</span>
           </template>
-          <el-menu-item index="/hooks/useRequest">{{
-            t("menu.useRequest")
-          }}</el-menu-item>
-          <el-menu-item index="/hooks/useForm">{{ t("menu.useForm") }}</el-menu-item>
+          <el-menu-item index="/hooks/useRequest" :disabled="!can('/hooks/useRequest')">
+            {{ t("menu.useRequest") }}
+          </el-menu-item>
+          <el-menu-item index="/hooks/useForm" :disabled="!can('/hooks/useForm')">
+            {{ t("menu.useForm") }}
+          </el-menu-item>
         </el-sub-menu>
 
-        <el-sub-menu index="multi">
+        <el-sub-menu
+          index="multi"
+          :disabled="groupDisabled('/multi/1-1', '/multi/1-2', '/multi/2')"
+        >
           <template #title>
             <el-icon><Menu /></el-icon>
-            <!-- 調整：t('menu.multi') -->
             <span>{{ t("menu.multi") }}</span>
           </template>
-          <el-sub-menu index="multi-1">
+          <el-sub-menu
+            index="multi-1"
+            :disabled="groupDisabled('/multi/1-1', '/multi/1-2')"
+          >
             <template #title>{{ t("menu.multi") }} - 1</template>
-            <el-menu-item index="/multi/1-1">{{ t("menu.multi11") }}</el-menu-item>
-            <el-menu-item index="/multi/1-2">{{ t("menu.multi12") }}</el-menu-item>
+            <el-menu-item index="/multi/1-1" :disabled="!can('/multi/1-1')">
+              {{ t("menu.multi11") }}
+            </el-menu-item>
+            <el-menu-item index="/multi/1-2" :disabled="!can('/multi/1-2')">
+              {{ t("menu.multi12") }}
+            </el-menu-item>
           </el-sub-menu>
-          <el-menu-item index="/multi/2">{{ t("menu.multi2") }}</el-menu-item>
+          <el-menu-item index="/multi/2" :disabled="!can('/multi/2')">
+            {{ t("menu.multi2") }}
+          </el-menu-item>
         </el-sub-menu>
 
-        <el-sub-menu index="examples">
+        <el-sub-menu
+          index="examples"
+          :disabled="groupDisabled('/examples/payment', '/examples/events')"
+        >
           <template #title>
             <el-icon><Menu /></el-icon>
-            <!-- 調整：t('menu.examples') -->
             <span>{{ t("menu.examples") }}</span>
           </template>
-          <el-menu-item index="/examples/payment">{{ t("menu.payment") }}</el-menu-item>
-          <el-menu-item index="/examples/edit">{{ t("menu.edit") }}</el-menu-item>
+          <el-menu-item index="/examples/payment" :disabled="!can('/examples/payment')">
+            {{ t("menu.payment") }}
+          </el-menu-item>
+          <el-menu-item index="/examples/events" :disabled="!can('/examples/events')">
+            {{ t("menu.events") }}
+          </el-menu-item>
         </el-sub-menu>
 
-        <el-menu-item index="/errors">
-          <el-icon><Warning /></el-icon>
-          <!-- 調整：t('menu.errors') -->
-          <span>{{ t("menu.errors") }}</span>
-        </el-menu-item>
+        <!-- 錯誤頁：通常保持可用，不套權限 -->
+        <el-sub-menu index="errors">
+          <template #title>
+            <el-icon><Warning /></el-icon>
+            <span>{{ t("menu.errors") }}</span>
+          </template>
+          <el-menu-item index="/errors/400">{{ t("menu.errors400") }}</el-menu-item>
+          <el-menu-item index="/errors/403">{{ t("menu.errors403") }}</el-menu-item>
+          <el-menu-item index="/errors/500">{{ t("menu.errors500") }}</el-menu-item>
+        </el-sub-menu>
 
-        <el-sub-menu index="permission">
+        <el-sub-menu index="permission" :disabled="groupDisabled('/permission/page')">
           <template #title>
             <el-icon><Lock /></el-icon>
-            <!-- 調整：t('menu.permission') -->
             <span>{{ t("menu.permission") }}</span>
           </template>
-          <el-menu-item index="/permission/page">{{
-            t("menu.pagePermission")
-          }}</el-menu-item>
-          <el-menu-item index="/permission/button">{{
-            t("menu.buttonPermission")
-          }}</el-menu-item>
+          <el-menu-item index="/permission/page" :disabled="!can('/permission/page')">
+            {{ t("menu.pagePermission") }}
+          </el-menu-item>
         </el-sub-menu>
       </el-menu>
     </el-scrollbar>
@@ -131,10 +175,10 @@
 </template>
 
 <script setup>
-/* 新增：i18n 的 t，與路由同步高亮 */
 import { ref, watch, onMounted } from "vue";
-import { useI18n } from "vue-i18n"; // 新增：取用 t()
-import { useRoute } from "vue-router"; // 新增：同步當前路由
+import { useI18n } from "vue-i18n";
+import { useRoute } from "vue-router";
+import { usePermStore } from "@/stores/perm"; // ← 你的 Pinia 權限 store（JS）
 import {
   Menu,
   House,
@@ -146,33 +190,33 @@ import {
   Lock,
 } from "@element-plus/icons-vue";
 
-const { t } = useI18n(); // 新增：t()
+const { t } = useI18n();
 
-const props = defineProps({
-  collapsed: { type: Boolean, default: false },
-});
+const props = defineProps({ collapsed: { type: Boolean, default: false } });
 const emit = defineEmits(["select"]);
 
-const route = useRoute(); // 新增：當前路由
-const active = ref(route.path || "/dashboard/analysis"); // 預設高亮為當前路由
+const route = useRoute();
+const active = ref(route.path || "/dashboard/analysis");
+
+const perm = usePermStore();
+// 單一路徑是否可用
+const can = (path) => (perm.can ? perm.can(path) : true);
+// 一組路徑只要有一個可用就不禁用父層
+const groupDisabled = (...paths) => paths.every((p) => !can(p));
 
 const onSelect = (key) => emit("select", key);
 
-// 新增：路由變化時同步高亮
 watch(
   () => route.path,
   (p) => (active.value = p),
   { immediate: true }
 );
-
-// 可依收合狀態做額外處理（此處保留）
 watch(
   () => props.collapsed,
   () => void 0
 );
 
 onMounted(() => {
-  // 初次進入同步一次
   active.value = route.path || "/dashboard/analysis";
 });
 </script>

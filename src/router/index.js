@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { usePermStore } from '@/stores/perm'
 import { i18n } from '@/locales/i18n'
 
 // 路由表
@@ -189,12 +190,30 @@ const routes = [
         },
       },
       {
-        path: '/examples/edit',
-        name: 'ExamplesEdit',
-        component: () => import('@/views/examples/Edit.vue'),
+        path: '/examples/events',
+        name: 'ExamplesEvents',
+        component: () => import('@/views/examples/Events.vue'),
         meta: {
-          titleKey: 'menu.edit',
-          breadcrumb: ['menu.examples', 'menu.edit'],
+          titleKey: 'menu.events',
+          breadcrumb: ['menu.examples', 'menu.events'],
+        },
+      },
+      {
+        path: '/examples/events/new',
+        name: 'ExamplesEventNew',
+        component: () => import('@/views/examples/components/EventsNew.vue'),
+        meta: {
+          titleKey: 'menu.eventNew',
+          breadcrumb: ['menu.examples', 'menu.events', 'menu.eventNew'],
+        },
+      },
+      {
+        path: '/examples/events/:id/edit',
+        name: 'ExamplesEventEdit',
+        component: () => import('@/views/examples/components/EventsEdit.vue'),
+        meta: {
+          titleKey: 'menu.eventEdit',
+          breadcrumb: ['menu.examples', 'menu.events', 'menu.eventEdit'],
         },
       },
 
@@ -202,11 +221,42 @@ const routes = [
       {
         path: '/errors',
         name: 'Errors',
-        component: () => import('@/views/errors/Errors.vue'),
+        component: () => import('@/views/errors/index.vue'),
         meta: {
           titleKey: 'menu.errors',
           breadcrumb: ['menu.errors'],
+          public: true,  // 調整：讓錯誤頁不需要登入即可顯示
         },
+        redirect: '/errors/400',
+        children: [
+          {
+            path: '400',
+            name: 'Error400',
+            component: () => import('@/views/errors/400.vue'),
+            meta: {
+              titleKey: 'menu.errors400',
+              breadcrumb: ['menu.errors', 'menu.errors400'],
+            },
+          },
+          {
+            path: '403',
+            name: 'Error403',
+            component: () => import('@/views/errors/403.vue'),
+            meta: {
+              titleKey: 'menu.errors403',
+              breadcrumb: ['menu.errors', 'menu.errors403'],
+            },
+          },
+          {
+            path: '500',
+            name: 'Error500',
+            component: () => import('@/views/errors/500.vue'),
+            meta: {
+              titleKey: 'menu.errors500',
+              breadcrumb: ['menu.errors', 'menu.errors500'],
+            },
+          },
+        ],
       },
 
       // ===== 權限管理（頁面權限 / 按鈕權限）=====
@@ -219,15 +269,10 @@ const routes = [
           breadcrumb: ['menu.permission', 'menu.pagePermission'],
         },
       },
-      {
-        path: '/permission/button',
-        name: 'PermissionButton',
-        component: () => import('@/views/permission/ButtonPermission.vue'),
-        meta: {
-          titleKey: 'menu.buttonPermission',
-          breadcrumb: ['menu.permission', 'menu.buttonPermission'],
-        },
-      },
+
+
+      // ===== 未匹配到的路由 → 直接導到 400 =====
+      { path: '/:pathMatch(.*)*', redirect: '/errors/400' }
     ],
   },
 
@@ -244,12 +289,32 @@ const router = createRouter({
 })
 
 // 登入守衛
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const isAuthed = !!localStorage.getItem('token')
+
+  // 已登入又去 /login → 回首頁
   if (to.name === 'Login' && isAuthed) return next('/')
-  if (!to.meta?.public && !isAuthed) {
+
+  // 未登入要去非公開頁 → 去登入
+  const isPublic = to.matched.some(r => r.meta?.public === true)
+  if (!isPublic && !isAuthed) {
     return next({ path: '/login', query: { redirect: to.fullPath } })
   }
+
+  // 權限檢查（錯誤頁/登入頁/公開頁跳過）
+  const skipCheck = isPublic || to.path.startsWith('/errors') || to.name === 'Login'
+  if (skipCheck) return next()
+
+  const perm = usePermStore()
+  if (!perm.ready) {
+    // 初次載入權限：嘗試從 Firestore → 失敗讀 localStorage → 否則預設全開
+    await perm.load() // roleId 預設 'default'
+  }
+
+  if (!perm.can(to.path)) {
+    return next('/errors/403')
+  }
+
   next()
 })
 
